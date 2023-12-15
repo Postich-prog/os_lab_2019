@@ -85,6 +85,7 @@ int main(int argc, char **argv) {
     }
     pthread_t threads[threads_num];
 
+    //генерация массива
     int *array = malloc(sizeof(int) * array_size);
     GenerateArray(array, array_size, seed);
 
@@ -107,7 +108,7 @@ int main(int argc, char **argv) {
             args[i].end = (i + 1) * array_size / threads_num;
             if(args[i].end > array_size) {
                 printf ("%d %d\n", args[i].begin, args[i].end);
-                printf("SHIT!");
+                printf("error!");
                 return -1;
             }
         } else {
@@ -123,6 +124,7 @@ int main(int argc, char **argv) {
     long long int total_sum = 0;
     for (uint32_t i = 0; i < threads_num; i++) {
         long long int sum = 0;
+        
         pthread_join(threads[i], (void **)&sum);
         total_sum += sum;
     }

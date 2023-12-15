@@ -12,8 +12,8 @@ int main(void) {
     char *argv[2] = {"1","10"};
     if (child_pid >= 0) {
         if (child_pid == 0) {
-        dup2(link[1],STDOUT_FILENO);
-        execv("sequential_min_max",argv);
+            dup2(link[1],STDOUT_FILENO);
+            execv("sequential_min_max",argv);
         }
         else {
             close(link[1]);

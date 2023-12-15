@@ -1,0 +1,8 @@
+c
+echo "Аргументов: " $#
+for n in $@
+do
+  let sum=$sum+$n
+done
+D=$(bc<<<"scale=3;$sum/$#")
+echo "Ср ар: $D"

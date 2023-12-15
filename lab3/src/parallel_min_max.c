@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
   int array_size = -1;
   int pnum = -1;
   int i = 0;
-  bool with_files = true;
+  bool with_files = false;
  while (true) {
     int current_optind = optind ? optind : 1;
     static struct option options[] = {{"seed", required_argument, 0, 0},

@@ -21,9 +21,10 @@ int pnum;
 
 void alarm_handler()
 {
+  printf("kill\n");
   int i;
   for(i  = 0; i < pnum; i++)
-    kill(ch_pid[i], SIGQUIT);
+    kill(ch_pid[i], SIGKILL);
 }
 
 int main(int argc, char **argv) {
@@ -139,6 +140,7 @@ int main(int argc, char **argv) {
         // child process
         struct MinMax *min_max = malloc(sizeof(struct MinMax));
         min_max[0] = GetMinMax(array, i * array_step, i * array_step + local_step);
+        sleep(10);
 	//printf("Find %d and %d\n", min_max[0].min, min_max[0].max);
         if (with_files)
  	{
@@ -175,27 +177,20 @@ int main(int argc, char **argv) {
   }
   int status;
   int pid_counter = 0;
+  //обработчик сигнала
   signal(SIGALRM, alarm_handler);
   if(timeout > 0)
   {
-    while (active_child_processes > 0)
-    {
-      // your code here
-      alarm(timeout);
-      waitpid(ch_pid[pid_counter], &status, WNOHANG);
-      active_child_processes -= 1;
-      pid_counter++;
-    }
-  }
-  else
-  {
-    while (active_child_processes > 0)
+    //выполняет в вызвавший его процесс доставку сигнала (генерирует)
+    alarm(timeout);
+  }   
+  while (active_child_processes > 0)
     {
       // your code here
       wait(&status);
       active_child_processes -= 1;
     }
-  }
+  
 
   struct MinMax *min_max = malloc(sizeof(struct MinMax));
   int min = INT_MAX;
